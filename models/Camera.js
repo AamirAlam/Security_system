@@ -7,12 +7,16 @@ const CameraSchema = new Schema({
     required: true
   },
   coordinate: {
-    type: [Number],
+    type: String,
     required: true
   },
   is_live: {
     type: Boolean,
     default: false
+  },
+  camera_id: {
+    type: String,
+    required: true
   }
 });
 

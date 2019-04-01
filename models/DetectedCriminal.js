@@ -7,8 +7,7 @@ const DetectedCriminalSchema = new Schema({
     ref: "criminal_record"
   },
   camera_id: {
-    type: Schema.Types.ObjectId,
-    ref: "camera"
+    type: String
   },
   time: {
     type: Date,
