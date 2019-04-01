@@ -4,7 +4,7 @@
 ### How to setup
 
 *  Download lates version of node
-*  clone the repo    `git clone repo_url`
+*  clone the repo    `git clone https://github.com/AamirAlam/Security_system.git`
 *  run following command in project directory   `npm install`
 
 
