@@ -45,7 +45,7 @@ require("./config/passport")(passport);
 app.use("/api/users", users);
 app.use("/api/motion", motion);
 app.use("/api/camera", camera);
-app.use(("/api/numberplate", numberplate));
+app.use("/api/numberplate", numberplate);
 
 const port = process.env.PORT || 27017;
 

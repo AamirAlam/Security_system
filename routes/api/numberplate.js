@@ -40,15 +40,18 @@ router.get("/test", passport.authenticate("jwt", { session: false }), (req, res)
   res.json({ user: req.user.name });
 });
 
-// @route   POST request api/detected_motion/add
-// @desc    Add new Detected Motion
+// @route   POST request api/number_plate/add
+// @desc    Add new Detected Number Plate
 // @access  Public
 router.post("/add", upload.single("plate_image"), (req, res) => {
   if (isEmpty(req.file)) {
     return res.status(404).json({ message: "Please Add a file" });
   }
 
-  console.log(req.body);
+  if (isEmpty(req.body.camera_id)) {
+    return res.status(404).json({ message: "Please add camera id" });
+  }
+
   const numberPlateFeilds = {};
   numberPlateFeilds.plate_image = req.file.filename;
   numberPlateFeilds.plate_number = req.body.plate_number;
@@ -69,7 +72,7 @@ router.post("/add", upload.single("plate_image"), (req, res) => {
   });
 });
 
-// @route   GET request api/detected_motion/all
+// @route   GET request api/numberplate/all/1
 // @desc    GET Detected motions
 // @access  Public
 router.get("/all/:page_number", passport.authenticate("jwt", { session: false }), (req, res) => {
@@ -81,6 +84,21 @@ router.get("/all/:page_number", passport.authenticate("jwt", { session: false })
       if (isEmpty(plates)) {
         return res.status(404).json({ message: "No plates found" });
       }
+      res.json(plates);
+    })
+    .catch(err => res.status(404).json(err));
+});
+
+// @route   GET request api/numberplate/number/:number
+// @desc    GET Detected motions
+// @access  Public
+router.get("/by_number/:plate_number", passport.authenticate("jwt", { session: false }), (req, res) => {
+  if (isEmpty(req.params.plate_number)) {
+    return res.status(404).json({ message: "Please provile plate number" });
+  }
+  console.log(req.params.plate_number);
+  NumberPlate.find({ plate_number: req.params.plate_number })
+    .then(plates => {
       res.json(plates);
     })
     .catch(err => res.status(404).json(err));

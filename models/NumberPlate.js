@@ -15,8 +15,8 @@ const NumberPlateSchema = new Schema({
     default: Date.now
   },
   camera_id: {
-    type: Schema.Types.ObjectId,
-    ref: "camera"
+    type: String,
+    required: true
   }
 });
 
