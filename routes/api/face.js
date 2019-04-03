@@ -76,6 +76,24 @@ router.post("/add", passport.authenticate("jwt", { session: false }), upload.any
     });
 });
 
+// @route   POST request api/face/add_detection
+// @desc    POST add criminal detection from available record
+// @access  Private
+router.post("/face/add_detection", passport.authenticate("jwt", { session: false }), (req, res) => {
+  if (isEmpty(req.body.id)) {
+    return res.status(404).json({ message: "please add valid criminal id" });
+  }
+  if (isEmpty(req.body.camera_id)) {
+    return res.status(404).json({ message: "please add camera id" });
+  }
+  new DetectedCriminal(req.body)
+    .save()
+    .then(ref => {
+      return res.json({ success: true });
+    })
+    .catch(err => res.status(404).json(err));
+});
+
 // @route   GET request api/face/all/1
 // @desc    GET Criminal records
 // @access  Private
@@ -101,7 +119,7 @@ router.get("/by_name/:name", passport.authenticate("jwt", { session: false }), (
     return res.status(404).json({ message: "Please provile valid name" });
   }
 
-  NumberPlate.find({ name: req.params.name })
+  CriminalRecord.find({ name: req.params.name })
     .then(records => {
       res.json(records);
     })
