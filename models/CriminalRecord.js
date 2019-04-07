@@ -16,7 +16,7 @@ const CriminalRecordSchema = new Schema({
   contact_number: {
     type: String
   },
-  Crime: {
+  crime: {
     type: String,
     required: true
   },
