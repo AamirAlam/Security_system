@@ -79,7 +79,7 @@ router.post("/add", passport.authenticate("jwt", { session: false }), upload.any
 // @route   POST request api/face/add_detection
 // @desc    POST add criminal detection from available record
 // @access  Private
-router.post("/add_detection", passport.authenticate("jwt", { session: false }), (req, res) => {
+router.post("/add_detection", (req, res) => {
   if (isEmpty(req.body.criminal_id)) {
     return res.status(404).json({ message: "please add valid criminal id" });
   }
@@ -111,8 +111,8 @@ router.get("/all/:page_number", passport.authenticate("jwt", { session: false })
     .catch(err => res.status(404).json(err));
 });
 
-// @route   GET request api/numberplate/number/:number
-// @desc    GET Detected motions
+// @route   GET request api/face/by_name/:name
+// @desc    GET Criminal records by name
 // @access  Public
 router.get("/by_name/:name", passport.authenticate("jwt", { session: false }), (req, res) => {
   if (isEmpty(req.params.name)) {

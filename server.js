@@ -13,6 +13,8 @@ const face = require("./routes/api/face");
 
 const app = express();
 
+//body parser middleware
+app.use(express.static("uploads"));
 // Body parser middleware
 // change max upload limit
 app.use(bodyParser.json({ limit: "50mb" }));
