@@ -40,8 +40,8 @@ const upload = multer({
 // @desc    Add new Criminal record
 // @access  Public
 router.post("/add", passport.authenticate("jwt", { session: false }), upload.any("face_data"), (req, res) => {
-  const { errors, isValid } = validateCameraInput(req.body, req.files);
-
+  const { errors, isValid } = validateCriminalFields(req.files);
+  console.log(req.files);
   //Check Validation
   if (!isValid) {
     return res.status(400).json(errors);
@@ -79,8 +79,8 @@ router.post("/add", passport.authenticate("jwt", { session: false }), upload.any
 // @route   POST request api/face/add_detection
 // @desc    POST add criminal detection from available record
 // @access  Private
-router.post("/face/add_detection", passport.authenticate("jwt", { session: false }), (req, res) => {
-  if (isEmpty(req.body.id)) {
+router.post("/add_detection", passport.authenticate("jwt", { session: false }), (req, res) => {
+  if (isEmpty(req.body.criminal_id)) {
     return res.status(404).json({ message: "please add valid criminal id" });
   }
   if (isEmpty(req.body.camera_id)) {
@@ -122,6 +122,20 @@ router.get("/by_name/:name", passport.authenticate("jwt", { session: false }), (
   CriminalRecord.find({ name: req.params.name })
     .then(records => {
       res.json(records);
+    })
+    .catch(err => res.status(404).json(err));
+});
+
+// @route   GET request api/face/detected_criminals/:page_number
+// @desc    GET Detected Criminals
+// @access  Public
+router.get("/detected_criminals/:page_number", passport.authenticate("jwt", { session: false }), (req, res) => {
+  DetectedCriminal.find({})
+    .sort({ date: -1 })
+    .skip((req.params.page_number - 1) * 10)
+    .limit(10)
+    .then(record => {
+      res.json(record);
     })
     .catch(err => res.status(404).json(err));
 });

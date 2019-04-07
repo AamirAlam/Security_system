@@ -9,6 +9,7 @@ const motion = require("./routes/api/motion");
 
 const camera = require("./routes/api/camera");
 const numberplate = require("./routes/api/numberplate");
+const face = require("./routes/api/face");
 
 const app = express();
 
@@ -46,7 +47,8 @@ app.use("/api/users", users);
 app.use("/api/motion", motion);
 app.use("/api/camera", camera);
 app.use("/api/numberplate", numberplate);
+app.use("/api/face", face);
 
-const port = process.env.PORT || 27017;
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
