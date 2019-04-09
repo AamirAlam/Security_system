@@ -73,7 +73,7 @@ router.post("/add", upload.single("plate_image"), (req, res) => {
 });
 
 // @route   GET request api/numberplate/all/1
-// @desc    GET Detected motions
+// @desc    GET Detected number plates
 // @access  Public
 router.get("/all/:page_number", passport.authenticate("jwt", { session: false }), (req, res) => {
   NumberPlate.find()
@@ -90,7 +90,7 @@ router.get("/all/:page_number", passport.authenticate("jwt", { session: false })
 });
 
 // @route   GET request api/numberplate/number/:number
-// @desc    GET Detected motions
+// @desc    GET Detected number plate by it's number
 // @access  Public
 router.get("/by_number/:plate_number", passport.authenticate("jwt", { session: false }), (req, res) => {
   if (isEmpty(req.params.plate_number)) {

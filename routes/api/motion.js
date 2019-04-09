@@ -33,22 +33,15 @@ const upload = multer({
   }
 });
 
-// @route   GET request api/posts/test
-// @desc    Test Performance of queries
-// @access  Public
-router.get("/test", passport.authenticate("jwt", { session: false }), (req, res) => {
-  res.json({ user: req.user.name });
-});
-
-// @route   POST request api/detected_motion/add
+// @route   POST request api/motion/add
 // @desc    Add new Detected Motion
 // @access  Public
 router.post("/add", upload.single("motion_clip"), (req, res) => {
+  console.log(req.file);
   if (isEmpty(req.file)) {
     return res.status(404).json({ message: "Please Add a file" });
   }
 
-  console.log(req.body);
   const motionFields = {};
 
   motionFields.motion_clip = req.file.filename;

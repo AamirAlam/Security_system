@@ -8,8 +8,6 @@ const isEmpty = require("../../validation/is-empty");
 //LOAD MODEL
 const Camera = require("../../models/Camera");
 
-const crypto = require("crypto");
-
 //Validator
 const validateCameraInput = require("../../validation/camera");
 
