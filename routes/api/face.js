@@ -140,4 +140,25 @@ router.get("/detected_criminals/:page_number", passport.authenticate("jwt", { se
     .catch(err => res.status(404).json(err));
 });
 
+// @route   GET request api/face/events/:time
+// @desc    GET face events between time
+// @access  Public
+router.get("/events/:time", (req, res) => {
+  var startDate = Date.now();
+  var endDate = new Date(req.params.time);
+  console.log(endDate);
+  DetectedCriminal.find({
+    time: {
+      $lte: endDate
+      // $lt: endDate
+    }
+  })
+    .populate("criminal_id")
+    .sort({ date: -1 })
+    .then(record => {
+      res.json(record);
+    })
+    .catch(err => res.status(404).json(err));
+});
+
 module.exports = router;

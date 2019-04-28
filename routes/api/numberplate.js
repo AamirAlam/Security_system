@@ -44,6 +44,8 @@ router.get("/test", passport.authenticate("jwt", { session: false }), (req, res)
 // @desc    Add new Detected Number Plate
 // @access  Public
 router.post("/add", upload.single("plate_image"), (req, res) => {
+  console.log(req.file);
+  console.log(req.body);
   if (isEmpty(req.file)) {
     return res.status(404).json({ message: "Please Add a file" });
   }
@@ -75,11 +77,9 @@ router.post("/add", upload.single("plate_image"), (req, res) => {
 // @route   GET request api/numberplate/all/1
 // @desc    GET Detected number plates
 // @access  Public
-router.get("/all/:page_number", passport.authenticate("jwt", { session: false }), (req, res) => {
+router.get("/all", (req, res) => {
   NumberPlate.find()
     .sort({ date: -1 })
-    .skip((req.params.page_number - 1) * 10)
-    .limit(10)
     .then(plates => {
       if (isEmpty(plates)) {
         return res.status(404).json({ message: "No plates found" });
@@ -92,7 +92,7 @@ router.get("/all/:page_number", passport.authenticate("jwt", { session: false })
 // @route   GET request api/numberplate/number/:number
 // @desc    GET Detected number plate by it's number
 // @access  Public
-router.get("/by_number/:plate_number", passport.authenticate("jwt", { session: false }), (req, res) => {
+router.get("/by_number/:plate_number", (req, res) => {
   if (isEmpty(req.params.plate_number)) {
     return res.status(404).json({ message: "Please provile plate number" });
   }
